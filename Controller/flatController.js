@@ -4,12 +4,38 @@ const path = require("path");
 
 //internal imports
 const Flat = require("../models/Flat");
-//get index page
 
+//get All Flats
 async function getFlat(req, res, next) {
-  res.send("This is flatAdd page");
+  try {
+    const result = await Contact.find({});
+    res.status(200).json({
+      result,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: err.message,
+    });
+  }
 }
 
+//get flat by Id
+async function getFlatById(req, res, next) {
+  try {
+    const data = await Flat.find({ _id: req.params.id });
+
+    res.status(200).json({
+      result: data,
+      message: "Success",
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: err.message,
+    });
+  }
+}
+
+//Add Flats
 async function flatPost(req, res, next) {
   let newFlat;
 
@@ -39,6 +65,19 @@ async function flatPost(req, res, next) {
       },
     });
   }
+}
+
+//update Flat
+function updateFlat(req, res) {
+  const result = Flat.findByIdAndUpdate(
+    // {_id: req.params.id},
+    // {
+    //   $set: {
+
+    //   }
+    // }
+    console.log(req.params.id)
+  );
 }
 
 //remove flat
@@ -76,4 +115,6 @@ module.exports = {
   getFlat,
   flatPost,
   removeFlat,
+  updateFlat,
+  getFlatById,
 };

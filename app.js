@@ -5,10 +5,10 @@ const dotenv = require("dotenv");
 const path = require("path");
 
 //internal imoprts
-const loginRouter = require("./router/loginRouter");
-const usersRouter = require("./router/usersRouter");
-const indexRouter = require("./router/indexRouter");
+const loginRouter = require("./Router/loginRouter");
+const usersRouter = require("./Router/usersRouter");
 const flatRouter = require("./Router/flatRouter");
+const contactRouter = require("./Router/contactRouter");
 
 const app = express();
 dotenv.config();
@@ -30,19 +30,29 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
 //Routing setup
-app.use("/", indexRouter);
+app.use("/", (req, res) => {
+  res.send("This is server Side");
+});
 app.use("/users", usersRouter);
 app.use("/login", loginRouter);
 app.use("/flat", flatRouter);
+app.use("/contact", contactRouter);
 
 //defaul error handler
+// git commit -m"Flat, Contact, users, login routers done without update functionality of flat"
+
 const errorHandler = (err, req, res, next) => {
   if (err) {
-    res.status(500).send(err.message);
+    if (err instanceof multer.MulterError) {
+      res.status(500).send("There was an upload error");
+    } else {
+      res.status(500).send(err.message);
+    }
   } else {
-    res.send("Not Successful");
+    res.send("Successful");
   }
 };
+
 app.use(errorHandler);
 
 app.listen(process.env.PORT, () => {
