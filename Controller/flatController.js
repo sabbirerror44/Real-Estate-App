@@ -5,17 +5,44 @@ const path = require("path");
 //internal imports
 const Flat = require("../models/Flat");
 
-//get All Flats
-async function getFlat(req, res, next) {
+//Get All Approved Flats
+const getApprovedFlat = async (req, res) => {
   try {
-    const result = await Contact.find({});
-    res.status(200).json({
-      result,
-    });
-  } catch (err) {
-    res.status(500).json({
-      message: err.message,
-    });
+    if (req.params.type === 'all') {
+        const flats = await Flat.find({status: "approved"});
+        if(flats){
+          res.status(200).json(flats);
+        }
+        else{
+          throw Error("Flats does not exist");
+        }
+    }
+    else{
+      const flats = await Flat.find({contract: req.params.type, status: "approved"});
+      if(flats){
+        res.status(200).json(flats);
+      }
+      else{
+        throw Error("Flats does not exist");
+      }
+    }
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
+}
+
+//Get All Pending flats
+const getPendingFlat = async (req, res) => {
+  try {
+        const flats = await Flat.find({status: "pending"});
+        if(flats){
+          res.status(200).json(flats);
+        }
+        else{
+          throw Error("Flats does not exist");
+        }
+    } catch (e) {
+    res.status(400).json({ error: e.message });
   }
 }
 
@@ -24,10 +51,7 @@ async function getFlatById(req, res, next) {
   try {
     const data = await Flat.find({ _id: req.params.id });
 
-    res.status(200).json({
-      result: data,
-      message: "Success",
-    });
+    res.status(200).json(data);
   } catch (err) {
     res.status(500).json({
       message: err.message,
@@ -37,8 +61,8 @@ async function getFlatById(req, res, next) {
 
 //Add Flats
 async function flatPost(req, res, next) {
+  console.log(req.body);
   let newFlat;
-
   if (req.files && req.files.length > 0) {
     newFlat = new Flat({
       ...req.body,
@@ -53,6 +77,7 @@ async function flatPost(req, res, next) {
   //save flat or send error
   try {
     const result = await newFlat.save();
+    console.log(result);
     res.status(200).json({
       message: "Flat was added successfully!",
     });
@@ -60,7 +85,7 @@ async function flatPost(req, res, next) {
     res.status(500).json({
       errors: {
         common: {
-          msg: "Unknown error occured!",
+          msg: err.message,
         },
       },
     });
@@ -68,16 +93,33 @@ async function flatPost(req, res, next) {
 }
 
 //update Flat
-function updateFlat(req, res) {
-  const result = Flat.findByIdAndUpdate(
-    // {_id: req.params.id},
-    // {
-    //   $set: {
+async function updateFlatStatus(req, res) {
+  try {
+    const result = await Flat.findByIdAndUpdate(
+      {_id: req.params.id},
+      {
+        $set: {
+          status: "approved"
+        }
+      },
+      {
+        useFindAndModify: false,
+      }
+    );
 
-    //   }
-    // }
-    console.log(req.params.id)
-  );
+    res.status(200).json({
+      message: "Flat Approved successfully!",
+    });
+  } catch (err) {
+    res.status(500).json({
+      errors: {
+        common: {
+          msg: "Could not approve the Flat!",
+        },
+      },
+    });
+  }
+
 }
 
 //remove flat
@@ -98,7 +140,7 @@ async function removeFlat(req, res, next) {
     }
 
     res.status(200).json({
-      message: "User was removed successfully!",
+      message: "Flat removed successfully!",
     });
   } catch (err) {
     res.status(500).json({
@@ -112,9 +154,10 @@ async function removeFlat(req, res, next) {
 }
 
 module.exports = {
-  getFlat,
+  getApprovedFlat,
+  getPendingFlat,
   flatPost,
   removeFlat,
-  updateFlat,
+  updateFlatStatus,
   getFlatById,
 };

@@ -3,10 +3,10 @@ const { check, validationResult } = require("express-validator");
 const doLoginValidators = [
   check("username")
     .isLength({
-      min: 1,
+      min: 8,
     })
-    .withMessage("Mobile number or email is required"),
-  check("password").isLength({ min: 1 }).withMessage("Password is required"),
+    .withMessage("Invalid Username"),
+  check("password").isLength({ min: 4 }).withMessage("Password must have more than 4 characters"),
 ];
 
 const doLoginValidationHandler = function (req, res, next) {

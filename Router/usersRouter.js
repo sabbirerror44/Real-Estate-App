@@ -5,6 +5,7 @@ const {
   addUser,
   removeUser,
 } = require("../Controller/usersController");
+const { addUserValidators, addUserValidationHandler } = require("../middlewares/users/userValidators");
 
 const router = express.Router();
 
@@ -12,7 +13,8 @@ const router = express.Router();
 router.get("/", getUsers);
 
 //add user
-router.post("/signup", addUser);
+router.post("/signup", addUserValidators ,addUserValidationHandler, addUser);
+
 
 //remove user
 router.delete("/remove/:id", removeUser);

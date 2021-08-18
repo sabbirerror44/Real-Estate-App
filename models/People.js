@@ -21,12 +21,9 @@ const peopleSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    avatar: {
-      type: String,
-    },
     role: {
       type: String,
-      enum: ["admin", "user"],
+      enum: ['user', 'admin'],
       default: "user",
     },
   },

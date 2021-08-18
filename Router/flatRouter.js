@@ -1,19 +1,22 @@
 //external imports
 const express = require("express");
 const {
-  getFlat,
+  getApprovedFlat,
+  getPendingFlat,
   flatPost,
   removeFlat,
-  updateFlat,
+  updateFlatStatus,
   getFlatById,
 } = require("../Controller/flatController");
+const flatAvatarUpload = require("../middlewares/flat/flatAvatarUpload");
 
 const router = express.Router();
 
-router.get("/", getFlat);
-router.get("/:id", getFlatById);
-router.post("/", flatPost);
-router.put("/:id", updateFlat);
-router.delete("/:id", removeFlat);
+router.get("/:type", getApprovedFlat);
+router.get("/pending/all", getPendingFlat);
+router.get("/single/:id", getFlatById);
+router.post("/", flatAvatarUpload, flatPost);
+router.put("/pending/:id", updateFlatStatus);
+router.delete("/pending/:id", removeFlat);
 
 module.exports = router;

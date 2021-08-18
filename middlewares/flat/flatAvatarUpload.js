@@ -3,7 +3,7 @@ const uploader = require("../../utilities/singleUploader");
 function flatAvatarUpload(req, res, next) {
   const upload = uploader(
     "flatAvatars",
-    ["images/jpeg", "image/jpg", "image/png"],
+    ["image/jpeg", "image/jpg", "image/png"],
     1000000,
     "Only .jpg, .jpeg, or .png files are allowed!"
   );

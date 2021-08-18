@@ -3,6 +3,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const path = require("path");
+const cors = require("cors");
+const cookieParser = require('cookie-parser');
 
 //internal imoprts
 const loginRouter = require("./Router/loginRouter");
@@ -12,6 +14,7 @@ const contactRouter = require("./Router/contactRouter");
 
 const app = express();
 dotenv.config();
+app.use(cookieParser(process.env.COOKIE_SECRET));
 
 //Database Connection
 mongoose
@@ -25,21 +28,21 @@ mongoose
 //request parsers
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 //set static folder
 app.use(express.static(path.join(__dirname, "public")));
 
 //Routing setup
-app.use("/", (req, res) => {
-  res.send("This is server Side");
-});
+// app.use("/", (req, res) => {
+//   res.send("This is server Side");
+// });
 app.use("/users", usersRouter);
 app.use("/login", loginRouter);
 app.use("/flat", flatRouter);
 app.use("/contact", contactRouter);
 
 //defaul error handler
-// git commit -m"Flat, Contact, users, login routers done without update functionality of flat"
 
 const errorHandler = (err, req, res, next) => {
   if (err) {

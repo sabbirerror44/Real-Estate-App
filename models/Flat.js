@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const FlatSchema = mongoose.Schema(
   {
-    propertyName: {
+    flat: {
       type: String,
       required: true,
     },
@@ -10,25 +10,23 @@ const FlatSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    bed: {
+      type: String,
+      required: true,
+    },
+    bath: {
+      type: String,
+      required: true,
+    },
+    district: {
+      type: String,
+      required: true,
+    },
     description: {
       type: String,
       required: true,
     },
-    baths: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    beds: {
-      type: String,
-      required: true,
-      trim: true,
-    },
     location: {
-      type: String,
-      required: true,
-    },
-    area: {
       type: String,
       required: true,
       trim: true,
@@ -38,14 +36,20 @@ const FlatSchema = mongoose.Schema(
     },
     contract: {
       type: String,
-      enum: ["sale", "rent"],
-      default: "sale",
+      enum: ["buy", "rent", "bachelor"],
+      default: "buy",
     },
     developer: {
       type: String,
       required: true,
       trim: true,
     },
+    status: {
+      type: String,
+      enum: ["pending", "approved"],
+      default: "pending",
+
+    }
   },
   {
     timestamps: true,
