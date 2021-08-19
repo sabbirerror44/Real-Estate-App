@@ -39,7 +39,7 @@ const FlatSchema = mongoose.Schema(
       enum: ["buy", "rent", "bachelor"],
       default: "buy",
     },
-    developer: {
+    owner: {
       type: String,
       required: true,
       trim: true,

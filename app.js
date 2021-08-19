@@ -11,6 +11,7 @@ const loginRouter = require("./Router/loginRouter");
 const usersRouter = require("./Router/usersRouter");
 const flatRouter = require("./Router/flatRouter");
 const contactRouter = require("./Router/contactRouter");
+const CVRouter = require("./Router/CVRouter");
 
 const app = express();
 dotenv.config();
@@ -41,6 +42,7 @@ app.use("/users", usersRouter);
 app.use("/login", loginRouter);
 app.use("/flat", flatRouter);
 app.use("/contact", contactRouter);
+app.use("/cv", CVRouter);
 
 //defaul error handler
 

@@ -1,10 +1,11 @@
 //external imports
 const express = require("express");
-const { getContact, addContact } = require("../Controller/contactController");
+const {  getInterestedContact, addContact, addContactAdmin } = require("../Controller/contactController");
 
 const router = express.Router();
 
-router.get("/", getContact);
-router.post("/", addContact);
+router.get("/:email",  getInterestedContact);
+router.post("/owner", addContact);
+router.post("/admin", addContactAdmin);
 
 module.exports = router;

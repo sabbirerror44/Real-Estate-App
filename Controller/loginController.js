@@ -1,16 +1,11 @@
 //external imports
-//external imports
+
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const createError = require("http-errors");
 
 // internal imports
 const User = require("../models/People");
-
-//get login page
-function getLogin(req, res, next) {
-  res.send("This is login page");
-}
 
 //do login
 async function login(req, res, next) {
@@ -85,6 +80,5 @@ async function login(req, res, next) {
 // }
 
 module.exports = {
-  getLogin,
   login,
 };

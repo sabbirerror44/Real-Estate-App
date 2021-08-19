@@ -61,7 +61,6 @@ async function getFlatById(req, res, next) {
 
 //Add Flats
 async function flatPost(req, res, next) {
-  console.log(req.body);
   let newFlat;
   if (req.files && req.files.length > 0) {
     newFlat = new Flat({

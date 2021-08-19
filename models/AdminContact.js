@@ -1,28 +1,27 @@
 const mongoose = require("mongoose");
 
-const contactSchema = mongoose.Schema(
+const AdminContactSchema = mongoose.Schema(
   {
-    flatId: {
+    topic: {
       type: String,
     },
-
-    OwnerEmail: {
-      type: String,
-      required: true,
-      trim: true,
-      lowercase: true,
-    },
-    ClientEmail: {
+    name: {
       type: String,
       required: true,
       trim: true,
       lowercase: true,
     },
-    ClientMobile: {
+    email: {
+      type: String,
+      required: true,
+      trim: true,
+      lowercase: true,
+    },
+    mobile: {
       type: String,
       required: true,
     },
-    ClientMessage: {
+    message: {
       type: String,
     },
   },
@@ -31,6 +30,6 @@ const contactSchema = mongoose.Schema(
   }
 );
 
-const Contact = mongoose.model("Contact", contactSchema);
+const AdminContact = mongoose.model("AdminContact", AdminContactSchema);
 
-module.exports = Contact;
+module.exports = AdminContact;
