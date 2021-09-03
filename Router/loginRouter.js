@@ -7,6 +7,5 @@ const router = express.Router();
 
 router.post("/", doLoginValidators, doLoginValidationHandler, login);
 
-// router.delete("/", logout);
 
 module.exports = router;

@@ -4,7 +4,6 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const path = require("path");
 const cors = require("cors");
-const cookieParser = require('cookie-parser');
 
 //internal imoprts
 const loginRouter = require("./Router/loginRouter");
@@ -15,8 +14,6 @@ const CVRouter = require("./Router/CVRouter");
 
 const app = express();
 dotenv.config();
-app.use(cookieParser(process.env.COOKIE_SECRET));
-
 //Database Connection
 mongoose
   .connect(process.env.MONGO_CONNECTION_STRING, {

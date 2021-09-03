@@ -29,30 +29,29 @@ async function login(req, res, next) {
       if (isValidPassword) {
         //prepare the user object to generate token
         const userObject = {
+          id: user._id,
           name: user.name,
           email: user.email,
           mobile: user.mobile,
           role: user.role,
         };
 
-      //   // generate token
-      //   const token = jwt.sign(userObject, process.env.JWT_SECRET, {
-      //     expiresIn: process.env.JWT_EXPIRY,
-      //   });
-
-      //   // set cookie
-      //   res.cookie(process.env.COOKIE_NAME, token, {
-      //     maxAge: process.env.JWT_EXPIRY,
-      //     httpOnly: true,
-      //     signed: true,
-      //   });
-
-      //   //set logged in user local identifier
-      //   res.locals.loggedInUser = userObject;
-      //   // console.log(res.local.loggedInUser);
+        const token = jwt.sign(
+          {
+            name: user.name,
+            email: user.email,
+            mobile: user.mobile,
+            role: user.role,
+          },
+          process.env.JWT_SECRET,
+          {
+            expiresIn: '2 days',
+          }
+        );
 
         res.status(200).json({
           user: userObject,
+          access_token: token,
           message: "User Logged In successfully!",
         });
       } else {
@@ -63,21 +62,10 @@ async function login(req, res, next) {
     }
   } catch (err) {
     res.status(500).json({
-      //   errors: {
-      //     common: {
-      //       msg: "Unknown error occured!",
-      //     },
-      //   },
       message: err.message,
     });
   }
 }
-
-// do logout
-// function logout(req, res) {
-//   res.clearCookie(process.env.COOKIE_NAME);
-//   res.send("logged out");
-// }
 
 module.exports = {
   login,
